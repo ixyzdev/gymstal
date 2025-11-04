@@ -1,0 +1,28 @@
+name: Expo CI - iOS
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+jobs:
+    build-ios:
+        runs-on: macos-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Instalar dependencias
+              run: npm ci
+
+            - name: Build iOS (Expo)
+              run: npx expo export --platform ios
+
+            - name: Lint y pruebas
+              run: |
+                  npm run lint
+                  npm test

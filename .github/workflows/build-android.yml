@@ -1,0 +1,28 @@
+name: Expo CI - Android
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+
+jobs:
+    build-android:
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 20
+
+            - name: Instalar dependencias
+              run: npm ci
+
+            - name: Build Android (Expo)
+              run: npx expo export --platform android
+
+            - name: Lint y pruebas
+              run: |
+                  npm run lint
+                  npm test

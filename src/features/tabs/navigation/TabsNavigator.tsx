@@ -3,9 +3,9 @@ import { Link, Tabs } from 'expo-router';
 import React from 'react';
 import { Pressable } from 'react-native';
 
-import Colors from '@/shared/theme/Colors';
 import { useClientOnlyValue } from '@/shared/hooks/useClientOnlyValue';
 import { useColorScheme } from '@/shared/hooks/useColorScheme';
+import Colors from '@/shared/theme/Colors';
 
 function TabBarIcon(props: { name: React.ComponentProps<typeof FontAwesome>['name']; color: string }) {
   return <FontAwesome size={28} style={{ marginBottom: -3 }} {...props} />;

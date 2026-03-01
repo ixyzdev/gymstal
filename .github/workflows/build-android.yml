@@ -19,6 +19,9 @@ jobs:
             - name: Instalar dependencias
               run: npm ci
 
+            - name: Verificar conflictos de merge
+              run: npm run check:merge-conflicts
+
             - name: Build Android (Expo)
               run: npx expo export --platform android
 

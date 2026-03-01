@@ -10,7 +10,8 @@
     "lint": "expo lint",
     "test": "jest --watchAll=false --passWithNoTests",
     "check:merge-conflicts": "bash scripts/check-merge-conflicts.sh",
-    "check:mergeability": "bash scripts/check-pr-mergeability.sh"
+    "check:mergeability": "bash scripts/check-pr-mergeability.sh",
+    "resolve:tabs-merge": "bash scripts/resolve-tabs-merge.sh"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",

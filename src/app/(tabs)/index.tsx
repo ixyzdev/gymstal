@@ -1,1 +1,1 @@
-export { ExerciseScreen as default } from '@/features/workout';
+export { HomeScreen as default } from '@/features/home/screens/HomeScreen';

@@ -1,3 +1,4 @@
+<<<<<<<< HEAD:src/features/second-tab/screens/SecondTabScreen.tsx
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/shared/ui/EditScreenInfo';
@@ -29,3 +30,6 @@ const styles = StyleSheet.create({
     width: '80%',
   },
 });
+========
+export { SecondTabScreen as default } from '@/features/second-tab/screens/SecondTabScreen';
+>>>>>>>> main:src/app/(tabs)/two.tsx

@@ -22,6 +22,9 @@ jobs:
             - name: Verificar conflictos de merge
               run: npm run check:merge-conflicts
 
+            - name: Validar mergeabilidad del PR
+              run: npm run check:mergeability
+
             - name: Build Android (Expo)
               run: npx expo export --platform android
 

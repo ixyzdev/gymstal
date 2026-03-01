@@ -4,10 +4,16 @@ const { defineConfig } = require('eslint/config');
 const expoConfig = require('eslint-config-expo/flat');
 const testingLibrary = require('eslint-plugin-testing-library');
 
-
 module.exports = defineConfig([
   // Config base de Expo
   expoConfig,
+
+  // Resolver para módulos RN con exports modernos
+  {
+    settings: {
+      'import/core-modules': ['react-native-paper'],
+    },
+  },
 
   // Ignorar build outputs
   {
@@ -21,10 +27,9 @@ module.exports = defineConfig([
       'testing-library': testingLibrary,
     },
 
-    // Regras específicas para Testing Library
+    // Reglas específicas para Testing Library
     rules: {
       ...testingLibrary.configs.react.rules,
     },
   },
-  
 ]);

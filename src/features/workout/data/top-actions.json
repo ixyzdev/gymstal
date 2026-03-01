@@ -1,0 +1,12 @@
+[
+  {
+    "id": "plan",
+    "label": "Elegir plan",
+    "variant": "outlined"
+  },
+  {
+    "id": "sessions",
+    "label": "Editar sesiones",
+    "variant": "contained"
+  }
+]

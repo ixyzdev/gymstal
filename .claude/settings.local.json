@@ -16,7 +16,18 @@
       "Bash(rm -rf src/providers)",
       "Bash(\"d:/Documentos/proyectos/activos/gymstal/docs/architecture/feature-based-architecture.md\":*)",
       "Bash(grep -r \"from ''@/features/\" d:/Documentos/proyectos/activos/gymstal/src --include=\"*.ts\" --include=\"*.tsx\" -l)",
-      "Bash(grep -r \"from ''@/features/\" d:/Documentos/proyectos/activos/gymstal/src --include=\"*.ts\" --include=\"*.tsx\" -n)"
+      "Bash(grep -r \"from ''@/features/\" d:/Documentos/proyectos/activos/gymstal/src --include=\"*.ts\" --include=\"*.tsx\" -n)",
+      "Bash(git -C \"d:/Documentos/proyectos/activos/gymstal\" ls-remote origin 'refs/heads/develop/*')",
+      "Bash(git -C \"d:/Documentos/proyectos/activos/gymstal\" push origin --delete develop/codex develop/standard)",
+      "Bash(git -C \"d:/Documentos/proyectos/activos/gymstal\" push origin HEAD)",
+      "Bash(git -C \"d:/Documentos/proyectos/activos/gymstal\" status)",
+      "Bash(git -C \"d:/Documentos/proyectos/activos/gymstal\" branch --set-upstream-to=origin/develop develop)",
+      "Bash(npx eslint src --ext .ts,.tsx --max-warnings=0)",
+      "Bash(\"d:/Documentos/proyectos/activos/gymstal/eslint.config.mjs\":*)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\({k:v for k,v in {**d.get\\(''dependencies'',{}\\),**d.get\\(''devDependencies'',{}\\)}.items\\(\\) if ''eslint'' in k.lower\\(\\)}, indent=2\\)\\)\")",
+      "Bash(python3 -c \"import json; d=json.load\\(open\\(''package.json''\\)\\); deps={**d.get\\(''dependencies'',{}\\),**d.get\\(''devDependencies'',{}\\)}; [print\\(k,v\\) for k,v in deps.items\\(\\)]\")",
+      "Bash(npm install --save-dev eslint-config-expo eslint-plugin-testing-library)",
+      "Bash(npx eslint src --ext .ts,.tsx)"
     ]
   }
 }

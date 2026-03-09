@@ -1,5 +1,8 @@
 import { Tabs } from 'expo-router';
 import { House, Menu } from 'lucide-react-native';
+import { Platform } from 'react-native';
+
+import { neutrals } from '@/shared/theme/neutrals';
 
 export function TabsNavigator() {
   return (
@@ -7,6 +10,13 @@ export function TabsNavigator() {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
+        tabBarActiveTintColor: neutrals.tabActive,
+        tabBarInactiveTintColor: neutrals.tabInactive,
+        tabBarStyle: {
+          backgroundColor: neutrals.background,
+          borderTopColor: neutrals.border,
+          paddingBottom: Platform.OS === 'android' ? 8 : 0,
+        },
       }}
     >
       <Tabs.Screen

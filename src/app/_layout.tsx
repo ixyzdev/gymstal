@@ -1,7 +1,7 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
+import { StatusBar } from 'expo-status-bar';
 import * as SplashScreen from 'expo-splash-screen';
+import { useFonts } from 'expo-font';
 import { useEffect } from 'react';
 import 'react-native-reanimated';
 
@@ -18,7 +18,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font,
   });
 
   useEffect(() => {
@@ -37,6 +36,7 @@ export default function RootLayout() {
 
   return (
     <RootProviders>
+      <StatusBar style="light" />
       <Stack>
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         <Stack.Screen name="modal" options={{ presentation: 'modal' }} />

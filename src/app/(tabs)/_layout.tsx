@@ -1,1 +1,1 @@
-export { TabsNavigator as default } from '@/features/tabs/navigation/TabsNavigator';
+export { TabsNavigator as default } from '@/features/tabs/TabsNavigator';

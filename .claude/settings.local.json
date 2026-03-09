@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -rf src/features/home/screens)",
+      "Bash(rm -rf src/features/feed/screens)",
+      "Bash(rm -rf src/features/history/screens)",
+      "Bash(rm -rf src/features/stats/screens)",
+      "Bash(rm -rf src/features/modal/screens)",
+      "Bash(rm -rf src/features/not-found/screens)",
+      "Bash(rm -rf src/features/menu/screens)",
+      "Bash(rm -rf src/features/menu/views)",
+      "Bash(rm -rf src/features/settings/screens)",
+      "Bash(rm -rf src/features/tabs/navigation)",
+      "Bash(rm -rf src/features/workout/screens)",
+      "Bash(rm -rf src/features/second-tab)",
+      "Bash(rm -rf src/providers)",
+      "Bash(\"d:/Documentos/proyectos/activos/gymstal/docs/architecture/feature-based-architecture.md\":*)",
+      "Bash(grep -r \"from ''@/features/\" d:/Documentos/proyectos/activos/gymstal/src --include=\"*.ts\" --include=\"*.tsx\" -l)",
+      "Bash(grep -r \"from ''@/features/\" d:/Documentos/proyectos/activos/gymstal/src --include=\"*.ts\" --include=\"*.tsx\" -n)"
+    ]
+  }
+}

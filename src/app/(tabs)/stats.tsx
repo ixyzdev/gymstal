@@ -1,1 +1,1 @@
-export { StatsScreen as default } from '@/features/stats/screens/StatsScreen';
+export { StatsScreen as default } from '@/features/stats/StatsScreen';

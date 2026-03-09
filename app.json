@@ -7,7 +7,6 @@
     "icon": "assets/images/icon.png",
     "scheme": "gymstal",
     "userInterfaceStyle": "automatic",
-    "newArchEnabled": true,
     "splash": {
       "image": "assets/images/splash-icon.png",
       "resizeMode": "contain",
@@ -17,12 +16,11 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.ixyz0.gymstal",
       "adaptiveIcon": {
         "foregroundImage": "assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      },
-      "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      }
     },
     "web": {
       "bundler": "metro",

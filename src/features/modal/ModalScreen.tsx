@@ -1,14 +1,17 @@
-import { StyleSheet } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+import { Platform, StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/shared/ui/EditScreenInfo';
 import { Text, View } from '@/shared/ui/Themed';
 
-export function HomeScreen() {
+export function ModalScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
+      <Text style={styles.title}>Modal</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="features/home/screens/HomeScreen.tsx" />
+      <EditScreenInfo path="features/modal/ModalScreen.tsx" />
+
+      <StatusBar style={Platform.OS === 'ios' ? 'light' : 'auto'} />
     </View>
   );
 }

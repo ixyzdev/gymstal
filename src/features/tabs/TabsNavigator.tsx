@@ -2,19 +2,20 @@ import { Tabs } from 'expo-router';
 import { House, Menu } from 'lucide-react-native';
 import { Platform } from 'react-native';
 
-import { neutrals } from '@/shared/theme/neutrals';
+import { useTheme } from '@/shared/theme/ThemeContext';
 
 export function TabsNavigator() {
+  const t = useTheme();
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: false,
-        tabBarActiveTintColor: neutrals.tabActive,
-        tabBarInactiveTintColor: neutrals.tabInactive,
+        tabBarActiveTintColor: t.tabActive,
+        tabBarInactiveTintColor: t.tabInactive,
         tabBarStyle: {
-          backgroundColor: neutrals.background,
-          borderTopColor: neutrals.border,
+          backgroundColor: t.background,
+          borderTopColor: t.border,
           paddingBottom: Platform.OS === 'android' ? 8 : 0,
         },
       }}

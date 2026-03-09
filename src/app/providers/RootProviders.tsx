@@ -1,17 +1,24 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider as NavThemeProvider } from '@react-navigation/native';
 import { PropsWithChildren } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
-import { useColorScheme } from '@/shared/hooks/useColorScheme';
+import { AppThemeProvider, useResolvedScheme } from '@/shared/theme/ThemeContext';
+
+function NavThemeConnector({ children }: PropsWithChildren) {
+  const scheme = useResolvedScheme();
+  return (
+    <NavThemeProvider value={scheme === 'dark' ? DarkTheme : DefaultTheme}>
+      {children}
+    </NavThemeProvider>
+  );
+}
 
 export function RootProviders({ children }: PropsWithChildren) {
-  const colorScheme = useColorScheme();
-
   return (
     <SafeAreaProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        {children}
-      </ThemeProvider>
+      <AppThemeProvider>
+        <NavThemeConnector>{children}</NavThemeConnector>
+      </AppThemeProvider>
     </SafeAreaProvider>
   );
 }

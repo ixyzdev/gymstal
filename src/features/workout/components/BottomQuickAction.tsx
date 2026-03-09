@@ -1,14 +1,15 @@
 import { Button } from 'react-native-paper';
 
-import { neutrals } from '@/shared/theme/neutrals';
+import { useTheme } from '@/shared/theme/ThemeContext';
 
 export function BottomQuickAction({ label }: { label: string }) {
+  const t = useTheme();
   return (
     <Button
       mode="contained"
       icon="dumbbell"
-      buttonColor={neutrals.surfaceSoft}
-      textColor={neutrals.textPrimary}
+      buttonColor={t.surfaceSoft}
+      textColor={t.textPrimary}
       contentStyle={{ paddingVertical: 8 }}
       style={{ borderRadius: 14 }}>
       {label}

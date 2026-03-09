@@ -1,19 +1,102 @@
 import { useRouter, type Href } from 'expo-router';
 import { ChevronLeft } from 'lucide-react-native';
+import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { neutrals } from '@/shared/theme/neutrals';
+import { useTheme } from '@/shared/theme/ThemeContext';
+import type { Theme } from '@/shared/theme/theme';
+
+const createStyles = (t: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: t.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: t.border,
+    },
+    backButton: {
+      padding: 4,
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      fontSize: 17,
+      fontWeight: '600',
+      color: t.textPrimary,
+    },
+    headerRight: {
+      width: 32,
+    },
+    content: {
+      paddingTop: 24,
+    },
+    sectionLabel: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: t.textSecondary,
+      letterSpacing: 0.8,
+      marginHorizontal: 20,
+      marginBottom: 8,
+      marginTop: 16,
+    },
+    section: {
+      backgroundColor: t.surfaceSoft,
+      marginHorizontal: 16,
+      borderRadius: 12,
+      overflow: 'hidden',
+    },
+    row: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      minHeight: 52,
+    },
+    rowLabel: {
+      fontSize: 15,
+      color: t.textPrimary,
+      flex: 1,
+    },
+    rowRight: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      gap: 4,
+    },
+    rowValue: {
+      fontSize: 15,
+      color: t.textSecondary,
+    },
+    chevronRight: {
+      transform: [{ rotate: '180deg' }],
+    },
+    separator: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: t.border,
+      marginLeft: 16,
+    },
+  });
+
+type StylesType = ReturnType<typeof createStyles>;
 
 export function SettingsScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const t = useTheme();
+  const styles = useMemo(() => createStyles(t), [t]);
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backButton} hitSlop={8}>
-          <ChevronLeft size={24} color={neutrals.textPrimary} />
+          <ChevronLeft size={24} color={t.textPrimary} />
         </Pressable>
         <Text style={styles.headerTitle}>Configuración</Text>
         <View style={styles.headerRight} />
@@ -25,18 +108,18 @@ export function SettingsScreen() {
       >
         <Text style={styles.sectionLabel}>CUENTA</Text>
         <View style={styles.section}>
-          <SettingsRow label="Nombre de usuario" value="@usuario" />
-          <Separator />
-          <SettingsRow label="Correo electrónico" value="usuario@email.com" />
+          <SettingsRow label="Nombre de usuario" value="@usuario" styles={styles} t={t} />
+          <View style={styles.separator} />
+          <SettingsRow label="Correo electrónico" value="usuario@email.com" styles={styles} t={t} />
         </View>
 
         <Text style={styles.sectionLabel}>PREFERENCIAS</Text>
         <View style={styles.section}>
-          <SettingsToggleRow label="Notificaciones push" />
-          <Separator />
-          <SettingsToggleRow label="Recordatorios de entrenamiento" defaultValue />
-          <Separator />
-          <SettingsToggleRow label="Sonidos" />
+          <SettingsToggleRow label="Notificaciones push" t={t} styles={styles} />
+          <View style={styles.separator} />
+          <SettingsToggleRow label="Recordatorios de entrenamiento" defaultValue t={t} styles={styles} />
+          <View style={styles.separator} />
+          <SettingsToggleRow label="Sonidos" t={t} styles={styles} />
         </View>
 
         <Text style={styles.sectionLabel}>PERSONALIZACIÓN</Text>
@@ -44,23 +127,21 @@ export function SettingsScreen() {
           <SettingsRow
             label="Apariencia"
             chevron
+            styles={styles}
+            t={t}
             onPress={() => router.push('/(tabs)/menu/settings/appearance' as Href)}
           />
         </View>
 
         <Text style={styles.sectionLabel}>APLICACIÓN</Text>
         <View style={styles.section}>
-          <SettingsRow label="Versión" value="1.0.0" />
-          <Separator />
-          <SettingsRow label="Privacidad y términos" chevron />
+          <SettingsRow label="Versión" value="1.0.0" styles={styles} t={t} />
+          <View style={styles.separator} />
+          <SettingsRow label="Privacidad y términos" chevron styles={styles} t={t} />
         </View>
       </ScrollView>
     </View>
   );
-}
-
-function Separator() {
-  return <View style={styles.separator} />;
 }
 
 function SettingsRow({
@@ -68,108 +149,46 @@ function SettingsRow({
   value,
   chevron,
   onPress,
+  styles,
+  t,
 }: {
   label: string;
   value?: string;
   chevron?: boolean;
   onPress?: () => void;
+  styles: StylesType;
+  t: Theme;
 }) {
   return (
-    <Pressable style={styles.row} android_ripple={{ color: neutrals.surfaceSoft }} onPress={onPress}>
+    <Pressable style={styles.row} android_ripple={{ color: t.surfaceSoft }} onPress={onPress}>
       <Text style={styles.rowLabel}>{label}</Text>
       <View style={styles.rowRight}>
         {value && <Text style={styles.rowValue}>{value}</Text>}
-        {chevron && <ChevronLeft size={16} color={neutrals.textSecondary} style={styles.chevronRight} />}
+        {chevron && <ChevronLeft size={16} color={t.textSecondary} style={styles.chevronRight} />}
       </View>
     </Pressable>
   );
 }
 
-function SettingsToggleRow({ label, defaultValue = false }: { label: string; defaultValue?: boolean }) {
+function SettingsToggleRow({
+  label,
+  defaultValue = false,
+  t,
+  styles,
+}: {
+  label: string;
+  defaultValue?: boolean;
+  t: Theme;
+  styles: StylesType;
+}) {
   return (
     <View style={styles.row}>
       <Text style={styles.rowLabel}>{label}</Text>
       <Switch
         value={defaultValue}
-        thumbColor={neutrals.button}
-        trackColor={{ false: neutrals.surface, true: neutrals.tabActive }}
+        thumbColor={t.button}
+        trackColor={{ false: t.surface, true: t.accent }}
       />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: neutrals.background,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: neutrals.border,
-  },
-  backButton: {
-    padding: 4,
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 17,
-    fontWeight: '600',
-    color: neutrals.textPrimary,
-  },
-  headerRight: {
-    width: 32,
-  },
-  content: {
-    paddingTop: 24,
-  },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: neutrals.textSecondary,
-    letterSpacing: 0.8,
-    marginHorizontal: 20,
-    marginBottom: 8,
-    marginTop: 16,
-  },
-  section: {
-    backgroundColor: neutrals.surfaceSoft,
-    marginHorizontal: 16,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    minHeight: 52,
-  },
-  rowLabel: {
-    fontSize: 15,
-    color: neutrals.textPrimary,
-    flex: 1,
-  },
-  rowRight: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 4,
-  },
-  rowValue: {
-    fontSize: 15,
-    color: neutrals.textSecondary,
-  },
-  chevronRight: {
-    transform: [{ rotate: '180deg' }],
-  },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: neutrals.border,
-    marginLeft: 16,
-  },
-});

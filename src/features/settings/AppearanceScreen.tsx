@@ -1,30 +1,110 @@
 import { useRouter } from 'expo-router';
-import { Check, ChevronLeft, Moon, Sun, Smartphone } from 'lucide-react-native';
+import { Check, ChevronLeft, Moon, Smartphone, Sun } from 'lucide-react-native';
+import { useMemo } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { neutrals } from '@/shared/theme/neutrals';
+import { useTheme, useThemePreference, type ThemePreference } from '@/shared/theme/ThemeContext';
+import type { Theme } from '@/shared/theme/theme';
 
-type ThemeOption = 'light' | 'dark' | 'system';
-
-const themeOptions: { value: ThemeOption; label: string; description: string; Icon: typeof Sun }[] = [
+const themeOptions: { value: ThemePreference; label: string; description: string; Icon: typeof Sun }[] = [
   { value: 'light', label: 'Claro', description: 'Fondo blanco, texto oscuro', Icon: Sun },
   { value: 'dark', label: 'Oscuro', description: 'Fondo oscuro, texto claro', Icon: Moon },
   { value: 'system', label: 'Sistema', description: 'Sigue la configuración del dispositivo', Icon: Smartphone },
 ];
 
+const createStyles = (t: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: t.background,
+    },
+    header: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: t.border,
+    },
+    backButton: {
+      padding: 4,
+    },
+    headerTitle: {
+      flex: 1,
+      textAlign: 'center',
+      fontSize: 17,
+      fontWeight: '600',
+      color: t.textPrimary,
+    },
+    headerRight: {
+      width: 32,
+    },
+    content: {
+      paddingTop: 24,
+    },
+    sectionLabel: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: t.textSecondary,
+      letterSpacing: 0.8,
+      marginHorizontal: 20,
+      marginBottom: 8,
+      marginTop: 16,
+    },
+    section: {
+      backgroundColor: t.surfaceSoft,
+      marginHorizontal: 16,
+      borderRadius: 12,
+      overflow: 'hidden',
+    },
+    optionRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 14,
+      paddingHorizontal: 16,
+      gap: 14,
+      minHeight: 64,
+    },
+    optionIcon: {
+      width: 32,
+      alignItems: 'center',
+    },
+    optionText: {
+      flex: 1,
+    },
+    optionLabel: {
+      fontSize: 15,
+      color: t.textSecondary,
+    },
+    optionLabelSelected: {
+      color: t.textPrimary,
+      fontWeight: '600',
+    },
+    optionDescription: {
+      fontSize: 12,
+      color: t.textSecondary,
+      marginTop: 2,
+    },
+    separator: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: t.border,
+      marginLeft: 16,
+    },
+  });
+
 export function AppearanceScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-
-  // TODO: wire to real theme state
-  const selected: ThemeOption = 'dark';
+  const t = useTheme();
+  const styles = useMemo(() => createStyles(t), [t]);
+  const { preference, setPreference } = useThemePreference();
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.header}>
         <Pressable onPress={() => router.back()} style={styles.backButton} hitSlop={8}>
-          <ChevronLeft size={24} color={neutrals.textPrimary} />
+          <ChevronLeft size={24} color={t.textPrimary} />
         </Pressable>
         <Text style={styles.headerTitle}>Apariencia</Text>
         <View style={styles.headerRight} />
@@ -37,13 +117,20 @@ export function AppearanceScreen() {
         <Text style={styles.sectionLabel}>TEMA</Text>
         <View style={styles.section}>
           {themeOptions.map((option, index) => {
-            const isSelected = selected === option.value;
+            const isSelected = preference === option.value;
             const isLast = index === themeOptions.length - 1;
             return (
               <View key={option.value}>
-                <Pressable style={styles.optionRow} android_ripple={{ color: neutrals.surface }}>
+                <Pressable
+                  style={styles.optionRow}
+                  android_ripple={{ color: t.surface }}
+                  onPress={() => setPreference(option.value)}
+                >
                   <View style={styles.optionIcon}>
-                    <option.Icon size={20} color={isSelected ? neutrals.textPrimary : neutrals.textSecondary} />
+                    <option.Icon
+                      size={20}
+                      color={isSelected ? t.accent : t.textSecondary}
+                    />
                   </View>
                   <View style={styles.optionText}>
                     <Text style={[styles.optionLabel, isSelected && styles.optionLabelSelected]}>
@@ -51,7 +138,7 @@ export function AppearanceScreen() {
                     </Text>
                     <Text style={styles.optionDescription}>{option.description}</Text>
                   </View>
-                  {isSelected && <Check size={18} color={neutrals.tabActive} />}
+                  {isSelected && <Check size={18} color={t.accent} />}
                 </Pressable>
                 {!isLast && <View style={styles.separator} />}
               </View>
@@ -62,82 +149,3 @@ export function AppearanceScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: neutrals.background,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: neutrals.border,
-  },
-  backButton: {
-    padding: 4,
-  },
-  headerTitle: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 17,
-    fontWeight: '600',
-    color: neutrals.textPrimary,
-  },
-  headerRight: {
-    width: 32,
-  },
-  content: {
-    paddingTop: 24,
-  },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: neutrals.textSecondary,
-    letterSpacing: 0.8,
-    marginHorizontal: 20,
-    marginBottom: 8,
-    marginTop: 16,
-  },
-  section: {
-    backgroundColor: neutrals.surfaceSoft,
-    marginHorizontal: 16,
-    borderRadius: 12,
-    overflow: 'hidden',
-  },
-  optionRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingVertical: 14,
-    paddingHorizontal: 16,
-    gap: 14,
-    minHeight: 64,
-  },
-  optionIcon: {
-    width: 32,
-    alignItems: 'center',
-  },
-  optionText: {
-    flex: 1,
-  },
-  optionLabel: {
-    fontSize: 15,
-    color: neutrals.textSecondary,
-  },
-  optionLabelSelected: {
-    color: neutrals.textPrimary,
-    fontWeight: '600',
-  },
-  optionDescription: {
-    fontSize: 12,
-    color: neutrals.textSecondary,
-    marginTop: 2,
-  },
-  separator: {
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: neutrals.border,
-    marginLeft: 16,
-  },
-});

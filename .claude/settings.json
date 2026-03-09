@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm uninstall @react-native-async-storage/async-storage)",
+      "Bash(npx expo install expo-secure-store)",
+      "Bash(npm uninstall react-native-mmkv)"
+    ]
+  }
+}

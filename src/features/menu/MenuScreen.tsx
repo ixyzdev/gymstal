@@ -3,14 +3,28 @@ import { useMemo } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
-import { neutrals } from '@/shared/theme/neutrals';
+import { useTheme } from '@/shared/theme/ThemeContext';
+import type { Theme } from '@/shared/theme/theme';
 
 import { MenuItemList } from './components/MenuItemList';
 import { menuItems } from './data/menuItems';
 
+const createStyles = (t: Theme) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: t.background,
+    },
+    content: {
+      flexGrow: 1,
+    },
+  });
+
 export function MenuScreen() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
+  const t = useTheme();
+  const styles = useMemo(() => createStyles(t), [t]);
 
   const items = useMemo(
     () =>
@@ -32,13 +46,3 @@ export function MenuScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: neutrals.background,
-  },
-  content: {
-    flexGrow: 1,
-  },
-})
